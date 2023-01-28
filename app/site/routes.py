@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template
-# from models import favorite_drinks
 # from helpers import token_required
 # instead of contacts need cars/used cars
 # from models import db, User, Contact, contact_schema, contacts_schema

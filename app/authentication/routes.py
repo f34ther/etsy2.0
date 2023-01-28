@@ -22,11 +22,12 @@ def signup():
             db.session.commit()
 
             flash(
-                f'You have successfully created a user account {email}', 'user-created')
+                f'You have successfully created a user account {email}', 'ser-created')
             return redirect(url_for('site.home'))
 
     except:
-        raise Exception('Invalid form data: Please check your form')
+        raise Exception(
+            'Invalid form data for sign up: Please check your form')
     return render_template('sign_up.html', form=form)
 
 

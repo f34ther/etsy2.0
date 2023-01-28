@@ -23,7 +23,7 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(150), nullable=True, default='')
     last_name = db.Column(db.String(150), nullable=True, default='')
     email = db.Column(db.String(150), nullable=False)
-    password = db.Column(db.String, nullable=True, default='')
+    password = db.Column(db.String, nullable=False, default='')
     g_auth_verify = db.Column(db.Boolean, default=False)
     token = db.Column(db.String, default='', unique=True)
     date_created = db.Column(
@@ -55,14 +55,13 @@ class User(db.Model, UserMixin):
 class Item(db.Model):
     id = db.Column(db.String, primary_key=True)
     title = db.Column(db.String(150), nullable=True)
-    description = db.Column(db.String(500), nullable=True)
+    description = db.Column(db.String(150), nullable=True)
     price = db.Column(db.String(150), nullable=True)
-    shipping_id = db.Column(db.String, db.ForeignKey(
-        "shipping.id"), nullable=False)
+    shipping_id = db.Column(db.String(150), nullable=True)
     user_token = db.Column(db.String, db.ForeignKey(
         "user.token"), nullable=False)
 
-    def __init__(self, title='', description='', price='', shipping_id='', user_token=''):
+    def __init__(self, title='', description='', price='', shipping_id='',  user_token=''):
         self.id = self.set_id()
         self.title = title
         self.description = description
@@ -71,17 +70,16 @@ class Item(db.Model):
         self.user_token = user_token
 
     def __repr__(self):
-        return f'The following item has been added to the gallery: {self.title}, {self.description}, {self.price}, {self.shipping_id}.'
+        return f'The following item has been added to gallery: {self.title}, {self.description}, {self.price}, {self.shipping_id}.'
 
     def set_id(self):
         return (secrets.token_urlsafe())
 
 
-class ItemSchema(ma.Schema):
+class CarSchema(ma.Schema):
     class Meta:
-        fields = ['id', 'title', 'description',
-                  'price', 'shipping_id']
+        fields = ['id', 'title', 'description', 'price', 'shipping_id']
 
 
-item_schema = ItemSchema()
-items_schema = ItemSchema(many=True)
+car_schema = CarSchema()
+cars_schema = CarSchema(many=True)
